@@ -1,0 +1,16 @@
+[
+{
+  "modid": "kingmammothcutscenes",
+  "name": "King Mammoth Cut Scenes",
+  "description": "A mod which adds cutscenes between singleplayer world generation.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "king-mammoth.org",
+  "updateUrl": "",
+  "authorList": ["PulseBeat_02"],
+  "credits": "The King Mammoth Team",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": ["mixinbootstrap"]
+}
+]
