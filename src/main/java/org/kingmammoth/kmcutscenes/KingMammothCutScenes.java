@@ -43,7 +43,7 @@ public class KingMammothCutScenes {
 
 			logger.info("Config file for King Mammoth Cut Scenes found. Loading in properties.");
 			playonceonly = ModConfig.getBoolean("settings", "play-once-only");
-			videolink = ModConfig.getString("settings", "videolink");
+			videolink = ModConfig.getString("settings", "video-link");
 
 			int num = ModConfig.getInt("internal", "playedvideo");
 

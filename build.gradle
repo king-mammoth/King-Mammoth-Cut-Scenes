@@ -79,6 +79,8 @@ dependencies {
     // For more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
+	
+	compile files("C:/Program Files/Java/jdk1.8.0_241/jre/lib/ext/jfxrt.jar")
 
 }
 
