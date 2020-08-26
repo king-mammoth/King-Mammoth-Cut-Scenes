@@ -39,8 +39,6 @@ public class VideoPlayer extends Application {
 		WebEngine webEngine = webView.getEngine();
 		webEngine.loadContent(LinkUtils.getContentURL(KingMammothCutScenes.videolink, width, height));
 
-		
-
 		StackPane root = new StackPane();
 		root.getChildren().add(webView);
 
