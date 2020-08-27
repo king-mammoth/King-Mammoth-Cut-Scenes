@@ -1,6 +1,7 @@
 package org.kingmammoth.kmcutscenes.video;
 
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.kingmammoth.kmcutscenes.KingMammothCutScenes;
 import org.kingmammoth.kmcutscenes.event.WorldGenerationEvent;
@@ -20,14 +21,26 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.relauncher.Side;
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+@Mod.EventBusSubscriber(Side.CLIENT)
 public class VideoPlayer extends Application {
 
 	public int width;
@@ -35,12 +48,29 @@ public class VideoPlayer extends Application {
 
 	public static StackPane root;
 	public static Button skip;
-
+	public static Stage primary;
+	public static AtomicBoolean isDone;
+	
 	@Override
 	public void start(Stage primaryStage) {
+		Timeline resize = new Timeline(
+                new KeyFrame(Duration.millis(1), 
+                new EventHandler<ActionEvent>() {
 
+   @Override
+   public void handle(ActionEvent event) {
+	   MatchSizeAndPos();
+	   if(isDone.get())
+	   {
+		   primaryStage.close();
+		  
+	   }
+   }
+}));
+		resize.setCycleCount(Timeline.INDEFINITE);
+resize.play();
 		Platform.setImplicitExit(false);
-
+		this.primary = primaryStage;
 		width = Minecraft.getMinecraft().displayWidth;
 		height = Minecraft.getMinecraft().displayHeight;
 
@@ -57,7 +87,7 @@ public class VideoPlayer extends Application {
 
 		WebEngine webEngine = webView.getEngine();
 		webEngine.loadContent(LinkUtils.getContentURL(KingMammothCutScenes.video, width, height));
-
+		
 		root = new StackPane();
 		root.getChildren().add(webView);
 		root.setStyle("-fx-background-color: transparent ;");
@@ -68,7 +98,8 @@ public class VideoPlayer extends Application {
 			@Override
 			public void handle(ActionEvent e) {
 				skip.setText("Skipped");
-
+				primaryStage.close();
+				
 			}
 		});
 		DropShadow shadow = new DropShadow();
@@ -82,6 +113,8 @@ public class VideoPlayer extends Application {
 			@Override
 			public void handle(MouseEvent e) {
 				skip.setEffect(null);
+			
+				
 			}
 		});
 
@@ -92,18 +125,23 @@ public class VideoPlayer extends Application {
 
 		Scene scene = new Scene(root, width, height);
 
-		primaryStage.setAlwaysOnTop(true);
+		//primaryStage.setAlwaysOnTop(true);
+		
 		primaryStage.setX(Display.getX() + 8);
 		primaryStage.setY(Display.getY() + 30);
 		primaryStage.setOpacity(0.9);
 		primaryStage.initStyle(StageStyle.UNDECORATED);
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent event) {
 				Platform.exit();
+				//primaryStage.hide();
 				event.consume();
+				resize.stop();
+				
 			}
 		});
 		primaryStage.heightProperty().addListener(e -> {
@@ -115,33 +153,42 @@ public class VideoPlayer extends Application {
 			skip.setLayoutX(0.8 * primaryStage.getWidth());
 			skip.setLayoutY(0.8 * primaryStage.getHeight());
 		});
-
+		
 	}
 
-	@SubscribeEvent
-	public void playerTick(TickEvent.PlayerTickEvent event) {
-
-		if (WorldGenerationEvent.subscribed && (Minecraft.getMinecraft().displayHeight != height
-				|| Minecraft.getMinecraft().displayWidth != width)) {
-
-//			primaryStage.setHeight(height);
-//			primaryStage.setWidth(width);
-
-			// Implement Window Change Here
-
+	
+	public void MatchSizeAndPos() {
+		
+		if(WorldGenerationEvent.subscribed)
+		{
+			
+			primary.setX(Display.getX()+8);
+			primary.setY(Display.getY()+30);
+		
+			if ((Minecraft.getMinecraft().displayHeight != height
+					|| Minecraft.getMinecraft().displayWidth != width)) {
+	
+				// Implement Window Change Here Actual video size is not changing
+				primary.setWidth(Display.getWidth());
+				primary.setHeight(Display.getHeight());
+				
+	
+			}
+			if(Display.isActive())
+			{
+				primary.requestFocus();
+			}
 		}
+		
 
 	}
 
-	@SubscribeEvent
-	public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) throws Exception {
-		skip.setVisible(true);
-	}
-
+	
+	
 	public void launchApp() {
 
 		launch(new String[] { null });
-
+		
 	}
 
 }

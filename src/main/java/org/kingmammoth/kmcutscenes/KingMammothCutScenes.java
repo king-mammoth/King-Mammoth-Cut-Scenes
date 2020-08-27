@@ -54,7 +54,7 @@ public class KingMammothCutScenes {
 		
 		playonceonly = ModConfig.getBoolean("settings", "play-once-only");
 		videolink = ModConfig.getString("settings", "video-link");
-
+		/*
 		int num = ModConfig.getInt("internal", "playedvideo");
 
 		if (num == -1) {
@@ -66,7 +66,7 @@ public class KingMammothCutScenes {
 			playedvideo = true;
 
 		}
-
+		*/
 		
 		if (!JSONHandler.getFile().exists()) {
 
