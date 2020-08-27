@@ -8,9 +8,12 @@ import net.minecraftforge.common.config.Configuration;
 public class ModConfig {
 	
 	public static Configuration config;
-	private static String file = "config/kingmammothcutscenes.cfg";
+	private static String file = "config/KingMammothCutScenes/kingmammothcutscenes.cfg";
 	
 	public static void init() {
+		
+		new File("config/KingMammothCutScenes").mkdir();
+		
 		config = new Configuration(new File(file));
 		try {
 			config.load();

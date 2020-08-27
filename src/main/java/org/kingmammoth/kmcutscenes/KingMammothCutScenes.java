@@ -2,6 +2,9 @@ package org.kingmammoth.kmcutscenes;
 
 import org.apache.logging.log4j.Logger;
 import org.kingmammoth.kmcutscenes.config.ModConfig;
+import org.kingmammoth.kmcutscenes.youtube.YoutubeVideoLink;
+import org.kingmammoth.kmcutscenes.youtube.json.GSONYoutubeLoader;
+import org.kingmammoth.kmcutscenes.youtube.json.JSONHandler;
 
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -11,6 +14,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 @Mod(modid = KingMammothCutScenes.MODID, name = KingMammothCutScenes.NAME, version = KingMammothCutScenes.VERSION)
 public class KingMammothCutScenes {
+
+	public static YoutubeVideoLink video;
 
 	public static final String MODID = "kingmammothcutscenes";
 	public static final String NAME = "King Mammoth Cut Scenes";
@@ -29,8 +34,9 @@ public class KingMammothCutScenes {
 	}
 
 	@EventHandler
-	public void init(FMLInitializationEvent event) {
+	public void init(FMLInitializationEvent event) throws Exception {
 
+		
 		if (!ModConfig.getFile().exists()) {
 
 			logger.info("Config file for King Mammoth Cut Scenes doesn't exist. Creating one now!");
@@ -42,22 +48,39 @@ public class KingMammothCutScenes {
 		} else {
 
 			logger.info("Config file for King Mammoth Cut Scenes found. Loading in properties.");
-			playonceonly = ModConfig.getBoolean("settings", "play-once-only");
-			videolink = ModConfig.getString("settings", "video-link");
-
-			int num = ModConfig.getInt("internal", "playedvideo");
-
-			if (num == -1) {
-
-				playedvideo = false;
-
-			} else if (num == 0) {
-
-				playedvideo = true;
-
-			}
 
 		}
+		
+		
+		playonceonly = ModConfig.getBoolean("settings", "play-once-only");
+		videolink = ModConfig.getString("settings", "video-link");
+
+		int num = ModConfig.getInt("internal", "playedvideo");
+
+		if (num == -1) {
+
+			playedvideo = false;
+
+		} else if (num == 0) {
+
+			playedvideo = true;
+
+		}
+
+		
+		if (!JSONHandler.getFile().exists()) {
+
+			logger.info("JSON file for King Mammoth Cut Scenes Title doesn't exist. Creating one now!");
+			JSONHandler.init();
+
+		} else {
+
+			logger.info("JSON file for King Mammoth Cut Scenes Title found. Loading in JSON.");
+
+		}
+
+		
+		video = GSONYoutubeLoader.getInstance();
 
 	}
 

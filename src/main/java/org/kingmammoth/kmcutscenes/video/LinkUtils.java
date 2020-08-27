@@ -3,6 +3,8 @@ package org.kingmammoth.kmcutscenes.video;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.kingmammoth.kmcutscenes.youtube.YoutubeVideoLink;
+
 public class LinkUtils {
 	
 	public static void main(String[] args) {
@@ -25,7 +27,7 @@ public class LinkUtils {
 		
 	}
 
-	public static String getContentURL(String link, int width, int height) {
+	public static String getContentURL(YoutubeVideoLink link, int width, int height) {
 
 		StringBuilder sb = new StringBuilder("<html><body style='margin: 0'>");
 		sb.append("");
@@ -43,14 +45,11 @@ public class LinkUtils {
 		sb.append(" ");
 		sb.append("src=");
 		sb.append('"');
-		sb.append(getEmbedLink(link) + "?controls=0&autoplay=1&disablekb=1&rel=0");
+		sb.append(link.url);
 		sb.append('"');
 		sb.append(" ");
-		sb.append("frameborder=\"0\"");
-		sb.append(" ");
-		sb.append("start");
-		sb.append(" ");
 		sb.append("</iframe>");
+		sb.append(" ");
 		sb.append("</body></html>");
 		String result = sb.toString();
 		

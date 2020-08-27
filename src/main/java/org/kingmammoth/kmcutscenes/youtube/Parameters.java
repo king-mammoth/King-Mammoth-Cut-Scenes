@@ -5,6 +5,9 @@ import java.util.HashMap;
 
 public class Parameters {
 
+	public int width;
+	public int height;
+
 	public int autoplay;
 	public int cc_load_policy;
 	public int controls;
@@ -16,7 +19,7 @@ public class Parameters {
 	public int modestbranding;
 	public int rel;
 	public int start;
-
+	
 	public String cc_lang_pref;
 	public String color;
 	public String hl;
@@ -34,29 +37,34 @@ public class Parameters {
 			if (f.getType() == int.class) {
 
 				String name = f.getName();
-				int value = f.getInt(this.getClass());
-				
-				if ((int)getValueOf(DefaultValueReference.class, name) != value) {
-					
-					args.put(name, value);
-					
+				int value = f.getInt(this);
+
+				if ((int) getValueOf(DefaultValueReference.class.newInstance(), name) != value) {
+
+					if (!name.equals("width") && !name.equals("height")) {
+						
+						System.out.println("Name of Change: " + name + " => New Value Is: " + value);
+						args.put(name, value);
+
+					}
+
 				}
 
 			} else if (f.getType() == String.class) {
 
 				String name = f.getName();
-				String value = (String) f.get(this.getClass());
-				
-				if (!getValueOf(DefaultValueReference.class, name).toString().equals(value)) {
-					
+				String value = (String) f.get(this);
+
+				if (!getValueOf(DefaultValueReference.class.newInstance(), name).toString().equals(value)) {
+
 					args.put(name, value);
-					
+
 				}
-				
+
 			}
 
 		}
-		
+
 		return args;
 
 	}

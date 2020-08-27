@@ -3,6 +3,7 @@ package org.kingmammoth.kmcutscenes.event;
 import org.kingmammoth.kmcutscenes.KingMammothCutScenes;
 import org.kingmammoth.kmcutscenes.config.ModConfig;
 import org.kingmammoth.kmcutscenes.video.VideoPlayer;
+import org.kingmammoth.kmcutscenes.video.VideoThread;
 
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -12,7 +13,10 @@ import net.minecraftforge.fml.relauncher.Side;
 @Mod.EventBusSubscriber(Side.CLIENT)
 public class WorldGenerationEvent {
 
-	private static boolean subscribed = false;
+	public static boolean subscribed = false;
+	public static Thread videoThread;
+	public static VideoPlayer cutscene;
+	public static VideoThread run;
 
 	@SubscribeEvent
 	public static void onWorldLoad(WorldEvent.Load event) {
@@ -28,10 +32,8 @@ public class WorldGenerationEvent {
 
 					KingMammothCutScenes.logger.info("Playing video for the first time.");
 
-					Thread t = new Thread(() -> {
-						playVideo();
-					});
-					t.start();
+					videoThread = new Thread(new VideoThread(cutscene));
+					videoThread.start();
 
 					ModConfig.writeConfig("internal", "playedvideo", 0);
 					KingMammothCutScenes.logger.info("Finished playing video for the first time.");
@@ -42,10 +44,8 @@ public class WorldGenerationEvent {
 
 				KingMammothCutScenes.logger.info("Playing video.");
 				
-				Thread t = new Thread(() -> {
-					playVideo();
-				});
-				t.start();
+				videoThread = new Thread(new VideoThread(cutscene));
+				videoThread.start();
 
 				ModConfig.writeConfig("internal", "playedvideo", -1);
 				KingMammothCutScenes.logger.info("Finished playing video.");
@@ -53,18 +53,6 @@ public class WorldGenerationEvent {
 			}
 
 		}
-
-	}
-
-	private static void playVideo() {
-		
-
-
-//		int width = Minecraft.getMinecraft().displayWidth;
-//		int height = Minecraft.getMinecraft().displayHeight;
-
-		VideoPlayer cutscene = new VideoPlayer();
-		cutscene.launchApp();
 
 	}
 
