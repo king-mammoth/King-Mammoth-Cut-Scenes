@@ -1,9 +1,11 @@
 package org.kingmammoth.kmcutscenes.video;
 
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.kingmammoth.kmcutscenes.KingMammothCutScenes;
 import org.kingmammoth.kmcutscenes.event.WorldGenerationEvent;
+import org.kingmammoth.kmcutscenes.video.component.SkipButton;
 import org.lwjgl.opengl.Display;
 
 import javafx.application.Application;
@@ -14,36 +16,52 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.relauncher.Side;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 
+@Mod.EventBusSubscriber(Side.CLIENT)
 public class VideoPlayer extends Application {
 
-	public int width;
-	public int height;
+	public int width = Minecraft.getMinecraft().displayWidth;
+	public int height = Minecraft.getMinecraft().displayHeight;
+	public int timeElapsedMilliseconds = 0;
 
-	public static StackPane root;
-	public static Button skip;
+	public Stage primary;
+	
+	public WebEngine webEngine;
+	
+	public AtomicBoolean isDone;
 
 	@Override
 	public void start(Stage primaryStage) {
-
+		
+		this.primary = primaryStage;
+		
+		Timeline resize = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				match();
+				if (isDone.get()) {
+					primaryStage.close();
+				}
+				timeElapsedMilliseconds++;
+			}
+		}));
+		resize.setCycleCount(Timeline.INDEFINITE);
+		resize.play();
+		
 		Platform.setImplicitExit(false);
-
-		width = Minecraft.getMinecraft().displayWidth;
-		height = Minecraft.getMinecraft().displayHeight;
-
+		
 		WebView webView = new WebView();
 		webView.getChildrenUnmodifiable().addListener(new ListChangeListener<Node>() {
 			@Override
@@ -55,44 +73,19 @@ public class VideoPlayer extends Application {
 			}
 		});
 
-		WebEngine webEngine = webView.getEngine();
+		webEngine = webView.getEngine();
 		webEngine.loadContent(LinkUtils.getContentURL(KingMammothCutScenes.video, width, height));
 
-		root = new StackPane();
+		StackPane root = new StackPane();
 		root.getChildren().add(webView);
 		root.setStyle("-fx-background-color: transparent ;");
 
-		skip = new Button();
-		skip.setText("Skip the Video");
-		skip.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				skip.setText("Skipped");
-
-			}
-		});
-		DropShadow shadow = new DropShadow();
-		skip.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				skip.setEffect(shadow);
-			}
-		});
-		skip.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				skip.setEffect(null);
-			}
-		});
-
-		skip.setDefaultButton(true);
-		skip.setVisible(true);
-		StackPane.setAlignment(skip, Pos.BOTTOM_RIGHT);
-		root.getChildren().add(skip);
+		SkipButton btn = new SkipButton();
+		StackPane.setAlignment(btn, Pos.BOTTOM_RIGHT);
+		root.getChildren().add(btn);
 
 		Scene scene = new Scene(root, width, height);
 
-		primaryStage.setAlwaysOnTop(true);
 		primaryStage.setX(Display.getX() + 8);
 		primaryStage.setY(Display.getY() + 30);
 		primaryStage.setOpacity(0.9);
@@ -104,38 +97,38 @@ public class VideoPlayer extends Application {
 			public void handle(WindowEvent event) {
 				Platform.exit();
 				event.consume();
+				resize.stop();
+
 			}
 		});
-		primaryStage.heightProperty().addListener(e -> {
-			skip.setLayoutX(0.8 * primaryStage.getWidth());
-			skip.setLayoutY(0.8 * primaryStage.getHeight());
-		});
-
-		primaryStage.widthProperty().addListener(e -> {
-			skip.setLayoutX(0.8 * primaryStage.getWidth());
-			skip.setLayoutY(0.8 * primaryStage.getHeight());
-		});
 
 	}
 
-	@SubscribeEvent
-	public void playerTick(TickEvent.PlayerTickEvent event) {
+	public void match() {
 
-		if (WorldGenerationEvent.subscribed && (Minecraft.getMinecraft().displayHeight != height
-				|| Minecraft.getMinecraft().displayWidth != width)) {
+		if (WorldGenerationEvent.subscribed) {
 
-//			primaryStage.setHeight(height);
-//			primaryStage.setWidth(width);
+			primary.setX(Display.getX() + 8);
+			primary.setY(Display.getY() + 30);
 
-			// Implement Window Change Here
+			if ((Minecraft.getMinecraft().displayHeight != height || Minecraft.getMinecraft().displayWidth != width)) {
 
+				// Implement Window Change Here Actual video size is not changing
+				primary.setWidth(Display.getWidth());
+				primary.setHeight(Display.getHeight());
+				
+				LinkUtils.setNewWindowLink(width, height, timeElapsedMilliseconds/1000);
+				webEngine.loadContent(LinkUtils.getContentURL(KingMammothCutScenes.video, width, height));
+
+
+			}
+			
+			if (Display.isActive()) {
+				primary.requestFocus();
+			}
+			
 		}
 
-	}
-
-	@SubscribeEvent
-	public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) throws Exception {
-		skip.setVisible(true);
 	}
 
 	public void launchApp() {

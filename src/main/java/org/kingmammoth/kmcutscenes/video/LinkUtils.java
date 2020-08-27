@@ -3,6 +3,7 @@ package org.kingmammoth.kmcutscenes.video;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.kingmammoth.kmcutscenes.KingMammothCutScenes;
 import org.kingmammoth.kmcutscenes.youtube.YoutubeVideoLink;
 
 public class LinkUtils {
@@ -26,10 +27,40 @@ public class LinkUtils {
         return "null";
 		
 	}
+	
+	public static void setNewWindowLink(int width, int height, int time) {
+		
+		YoutubeVideoLink link = KingMammothCutScenes.video;
+		
+		String[] params = link.url.split("&");
+		
+		StringBuilder sb = new StringBuilder();
+		
+		for (int i = 0; i < params.length; i++) {
+			
+			if (params[i].contains("start=")) {
+				
+				params[i] = "";
+				
+			}
+			
+			sb.append(params[i]);
+			
+		}
+		
+		sb.append("start=");
+		sb.append('"');
+		sb.append(time);
+		sb.append('"');
+		
+		KingMammothCutScenes.video.url = sb.toString();
+
+	}
 
 	public static String getContentURL(YoutubeVideoLink link, int width, int height) {
 
-		StringBuilder sb = new StringBuilder("<html><body style='margin: 0'>");
+		StringBuilder sb = new StringBuilder();
+		sb.append("<html><body style='margin: 0'>");
 		sb.append("");
 		sb.append("<iframe");
 		sb.append(" ");
@@ -39,9 +70,9 @@ public class LinkUtils {
 		sb.append('"');
 		sb.append(" ");
 		sb.append("height=");
-		sb.append("'");
+		sb.append('"');
 		sb.append(height);
-		sb.append("'");
+		sb.append('"');
 		sb.append(" ");
 		sb.append("src=");
 		sb.append('"');
