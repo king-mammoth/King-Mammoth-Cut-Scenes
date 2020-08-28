@@ -21,49 +21,48 @@ public class WorldGenerationEvent {
 	public static VideoPlayer cutscene;
 	public static VideoThread run;
 	public static AtomicBoolean isDone = new AtomicBoolean(false);
+
 	@SubscribeEvent
 	public static void onWorldLoad(WorldEvent.Load event) {
-		
+
 		if (!subscribed) {
-			
+
 			KingMammothCutScenes.logger.info("Got World Generation Event");
+			
 			subscribed = true;
-			//cutscene = new VideoPlayer();
+			
 			if (KingMammothCutScenes.playonceonly) {
 
-				//if (!KingMammothCutScenes.playedvideo) {
+				KingMammothCutScenes.logger.info("Playing video for the first time.");
 
-					KingMammothCutScenes.logger.info("Playing video for the first time.");
+				videoThread = new Thread(new VideoThread(cutscene, isDone));
+				videoThread.start();
 
-					videoThread = new Thread(new VideoThread(cutscene, isDone));
-					videoThread.start();
+				ModConfig.writeConfig("internal", "playedvideo", 0);
 
-					ModConfig.writeConfig("internal", "playedvideo", 0);
-					KingMammothCutScenes.logger.info("Finished playing video for the first time.");
-
-				//}
 
 			} else {
 
 				KingMammothCutScenes.logger.info("Playing video.");
-				
+
 				videoThread = new Thread(new VideoThread(cutscene, isDone));
 				videoThread.start();
 
 				ModConfig.writeConfig("internal", "playedvideo", -1);
-				KingMammothCutScenes.logger.info("Finished playing video.");
 
 			}
 
 		}
 
 	}
+
 	@SubscribeEvent
 	public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) throws Exception {
 		isDone.set(true);
 		videoThread.interrupt();
-		
+
 	}
+
 	@SubscribeEvent
 	public static void onWorldUnload(WorldEvent.Unload event) {
 		subscribed = false;

@@ -1,6 +1,12 @@
 package org.kingmammoth.kmcutscenes.youtube;
 
+import org.kingmammoth.kmcutscenes.video.Settings;
+
 public class DefaultValueReference {
+	
+	public String event = "org.kingmammoth.kmcutscenes.event.WorldGenerationEvent.onWorldLoad";
+	public String[] eventParameters = {"net.minecraftforge.event.world.WorldEvent.Load"};
+	public String url = "";
 	
 	public int width = -1;
 	public int height = -1;
@@ -20,6 +26,32 @@ public class DefaultValueReference {
 	public String cc_lang_pref = "";
 	public String color = "";
 	public String hl = "";
+	
+	public Settings settings = new Settings(0.9f, true, false, true, true, true);
+	
+	public String getEvent() {
+		return event;
+	}
+
+	public void setEvent(String event) {
+		this.event = event;
+	}
+	
+	public String[] getEventParameters() {
+		return eventParameters;
+	}
+
+	public void setEventParameters(String[] eventParameters) {
+		this.eventParameters = eventParameters;
+	}
+	
+	public String getUrl() {
+		return url;
+	}
+	
+	public void setUrl(String url) {
+		this.url = url;
+	}
 	
 	public int getWidth() {
 		return width;
@@ -147,6 +179,14 @@ public class DefaultValueReference {
 
 	public void setHl(String hl) {
 		this.hl = hl;
+	}
+	
+	public Settings getSettings() {
+		return settings;
+	}
+	
+	public void setSettings(Settings settings) {
+		this.settings = settings;
 	}
 	
 }

@@ -3,6 +3,7 @@ package org.kingmammoth.kmcutscenes.video;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.kingmammoth.kmcutscenes.KingMammothCutScenes;
 import org.kingmammoth.kmcutscenes.youtube.YoutubeVideoLink;
 
 public class LinkUtils {
@@ -26,10 +27,22 @@ public class LinkUtils {
         return "null";
 		
 	}
+	
+	public static void setNewWindowLink(int width, int height, int time) {
+		
+		// No Fucking Idea Why This Doesn't Work
+		
+		KingMammothCutScenes.video.url = KingMammothCutScenes.video.url.replaceAll("([?&]start=\\w+)", "");
+		KingMammothCutScenes.video.url += ("&start=" + time);
+		
+		System.out.println("New Link: " + KingMammothCutScenes.video.url);
+
+	}
 
 	public static String getContentURL(YoutubeVideoLink link, int width, int height) {
 
-		StringBuilder sb = new StringBuilder("<html><body style='margin: 0'>");
+		StringBuilder sb = new StringBuilder();
+		sb.append("<html><body style='margin: 0'>");
 		sb.append("");
 		sb.append("<iframe");
 		sb.append(" ");
@@ -39,9 +52,9 @@ public class LinkUtils {
 		sb.append('"');
 		sb.append(" ");
 		sb.append("height=");
-		sb.append("'");
+		sb.append('"');
 		sb.append(height);
-		sb.append("'");
+		sb.append('"');
 		sb.append(" ");
 		sb.append("src=");
 		sb.append('"');

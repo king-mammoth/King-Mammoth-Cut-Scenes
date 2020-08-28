@@ -6,6 +6,7 @@ public class VideoThread implements Runnable {
 
 	public VideoPlayer player;
 	public static AtomicBoolean isDone;
+	
 	public VideoThread(VideoPlayer playerDummy, AtomicBoolean isDoneDummy) {
 		player = playerDummy;
 		isDone = isDoneDummy;
@@ -13,7 +14,6 @@ public class VideoThread implements Runnable {
 
 	@Override
 	public void run() {
-		
 		playVideo();
 		player.primary.show();
 	}
