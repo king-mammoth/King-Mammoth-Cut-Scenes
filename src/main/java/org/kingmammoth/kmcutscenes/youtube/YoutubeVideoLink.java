@@ -7,8 +7,11 @@ import org.kingmammoth.kmcutscenes.video.LinkUtils;
 public class YoutubeVideoLink {
 	
 	public String url;
+	public Parameters parameters;
 	
 	public YoutubeVideoLink(String link, Parameters p) throws Exception {
+		
+		this.parameters = p;
 		
 		String embed = LinkUtils.getEmbedLink(link) + "?";
 		

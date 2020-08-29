@@ -11,7 +11,7 @@ import com.google.gson.GsonBuilder;
 
 public class JSONHandler {
 	
-	public static String EventLoadWorld = "config/kingmammothcutscenes/EventLoadWorld.json";
+	public static String EventLoadWorld = "config/KingmammothCutScenes/EventLoadWorld.json";
 	
 	public static void init() throws IOException {
 		
@@ -20,7 +20,7 @@ public class JSONHandler {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String json = gson.toJson(new DefaultValueReference());
 		
-		PrintWriter pw = new PrintWriter("config/kingmammothcutscenes/EventLoadWorld.json");
+		PrintWriter pw = new PrintWriter("config/KingmammothCutScenes/EventLoadWorld.json");
 		pw.println(json);
 		pw.close();		
 

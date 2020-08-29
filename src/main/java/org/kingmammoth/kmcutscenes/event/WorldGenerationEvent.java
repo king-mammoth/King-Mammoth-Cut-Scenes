@@ -28,11 +28,10 @@ public class WorldGenerationEvent {
 		if (!subscribed) {
 
 			KingMammothCutScenes.logger.info("Got World Generation Event");
+			
 			subscribed = true;
-			// cutscene = new VideoPlayer();
+			
 			if (KingMammothCutScenes.playonceonly) {
-
-				// if (!KingMammothCutScenes.playedvideo) {
 
 				KingMammothCutScenes.logger.info("Playing video for the first time.");
 
@@ -40,9 +39,9 @@ public class WorldGenerationEvent {
 				videoThread.start();
 
 				ModConfig.writeConfig("internal", "playedvideo", 0);
+
 				KingMammothCutScenes.logger.info("Finished playing video for the first time.");
 
-				// }
 
 			} else {
 
@@ -52,7 +51,6 @@ public class WorldGenerationEvent {
 				videoThread.start();
 
 				ModConfig.writeConfig("internal", "playedvideo", -1);
-				KingMammothCutScenes.logger.info("Finished playing video.");
 
 			}
 

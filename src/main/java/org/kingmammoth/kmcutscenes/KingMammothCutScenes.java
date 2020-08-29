@@ -27,6 +27,8 @@ public class KingMammothCutScenes {
 	public static String videolink;
 
 	public static Logger logger;
+	
+	public static Object[] params;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {

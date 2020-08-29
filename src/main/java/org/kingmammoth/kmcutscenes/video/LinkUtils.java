@@ -29,31 +29,15 @@ public class LinkUtils {
 	}
 	
 	public static void setNewWindowLink(int width, int height, int time) {
+	
+		// No Fucking Idea Why This Doesn't Work
 		
-		YoutubeVideoLink link = KingMammothCutScenes.video;
+		KingMammothCutScenes.video.url = KingMammothCutScenes.video.url.replaceAll("([?&]start=\\w+)", "");
+		KingMammothCutScenes.video.url += ("&start=" + time);
 		
-		String[] params = link.url.split("&");
-		
-		StringBuilder sb = new StringBuilder();
-		
-		for (int i = 0; i < params.length; i++) {
-			
-			if (params[i].contains("start=")) {
-				
-				params[i] = "";
-				
-			}
-			
-			sb.append(params[i]);
-			
-		}
-		
-		sb.append("start=");
-		sb.append('"');
-		sb.append(time);
-		sb.append('"');
 		
 		KingMammothCutScenes.video.url = sb.toString();
+
 
 	}
 
