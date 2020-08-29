@@ -34,6 +34,7 @@ public class VideoPlayer extends Application {
 
 	public int width = Minecraft.getMinecraft().displayWidth;
 	public int height = Minecraft.getMinecraft().displayHeight;
+
 	public int timeElapsedMilliseconds = -8; // Loadup Times
 
 	public Stage primary;
@@ -63,6 +64,8 @@ public class VideoPlayer extends Application {
 		}));
 		resize.setCycleCount(Timeline.INDEFINITE);
 		resize.play();
+		
+		Platform.setImplicitExit(false);
 
 		WebView webView = new WebView();
 		webView.getChildrenUnmodifiable().addListener(new ListChangeListener<Node>() {
@@ -89,6 +92,7 @@ public class VideoPlayer extends Application {
 			root.getChildren().add(btn);
 
 		}
+
 
 		Scene scene = new Scene(root, width, height);
 
@@ -124,6 +128,7 @@ public class VideoPlayer extends Application {
 
 		if (WorldGenerationEvent.subscribed) {
 
+
 			if (settings.isFollowMinecraftScreenDrag()) {
 
 				primary.setX(Display.getX() + 8);
@@ -151,6 +156,7 @@ public class VideoPlayer extends Application {
 			}
 
 		}
+
 
 	}
 

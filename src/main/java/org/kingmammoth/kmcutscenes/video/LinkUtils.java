@@ -29,13 +29,15 @@ public class LinkUtils {
 	}
 	
 	public static void setNewWindowLink(int width, int height, int time) {
-		
+	
 		// No Fucking Idea Why This Doesn't Work
 		
 		KingMammothCutScenes.video.url = KingMammothCutScenes.video.url.replaceAll("([?&]start=\\w+)", "");
 		KingMammothCutScenes.video.url += ("&start=" + time);
 		
-		System.out.println("New Link: " + KingMammothCutScenes.video.url);
+		
+		KingMammothCutScenes.video.url = sb.toString();
+
 
 	}
 

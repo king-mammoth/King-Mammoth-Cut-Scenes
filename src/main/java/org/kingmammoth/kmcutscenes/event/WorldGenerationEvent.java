@@ -40,6 +40,8 @@ public class WorldGenerationEvent {
 
 				ModConfig.writeConfig("internal", "playedvideo", 0);
 
+				KingMammothCutScenes.logger.info("Finished playing video for the first time.");
+
 
 			} else {
 
