@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.kingmammoth.kmcutscenes.KingMammothCutScenes;
-import org.kingmammoth.kmcutscenes.event.WorldGenerationEvent;
+import org.kingmammoth.kmcutscenes.event.EventHandler;
 import org.kingmammoth.kmcutscenes.video.component.SkipButton;
 import org.lwjgl.opengl.Display;
 
@@ -12,7 +12,6 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -34,7 +33,6 @@ public class VideoPlayer extends Application {
 
 	public int width = Minecraft.getMinecraft().displayWidth;
 	public int height = Minecraft.getMinecraft().displayHeight;
-
 	public int timeElapsedMilliseconds = -8; // Loadup Times
 
 	public Stage primary;
@@ -43,7 +41,7 @@ public class VideoPlayer extends Application {
 
 	public AtomicBoolean isDone = new AtomicBoolean(false);
 
-	public Settings settings;
+	public VideoSettings settings;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -52,20 +50,19 @@ public class VideoPlayer extends Application {
 
 		settings = org.kingmammoth.kmcutscenes.youtube.Parameters.getSettings();
 
-		Timeline resize = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
+		Timeline resize = new Timeline(new KeyFrame(Duration.millis(1), new javafx.event.EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				match();
 				if (isDone.get()) {
 					primaryStage.close();
+					KingMammothCutScenes.current = null;
 				}
 				timeElapsedMilliseconds++;
 			}
 		}));
 		resize.setCycleCount(Timeline.INDEFINITE);
 		resize.play();
-		
-		Platform.setImplicitExit(false);
 
 		WebView webView = new WebView();
 		webView.getChildrenUnmodifiable().addListener(new ListChangeListener<Node>() {
@@ -79,7 +76,7 @@ public class VideoPlayer extends Application {
 		});
 
 		webEngine = webView.getEngine();
-		webEngine.loadContent(LinkUtils.getContentURL(KingMammothCutScenes.video, width, height));
+		webEngine.loadContent(LinkUtils.getContentURL(KingMammothCutScenes.current, width, height));
 
 		StackPane root = new StackPane();
 		root.getChildren().add(webView);
@@ -93,7 +90,6 @@ public class VideoPlayer extends Application {
 
 		}
 
-
 		Scene scene = new Scene(root, width, height);
 
 		primaryStage.setX(Display.getX() + 8);
@@ -103,7 +99,7 @@ public class VideoPlayer extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 
-		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+		primaryStage.setOnCloseRequest(new javafx.event.EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent event) {
 
@@ -126,8 +122,7 @@ public class VideoPlayer extends Application {
 
 	public void match() {
 
-		if (WorldGenerationEvent.subscribed) {
-
+		if (EventHandler.subscribed) {
 
 			if (settings.isFollowMinecraftScreenDrag()) {
 
@@ -147,7 +142,7 @@ public class VideoPlayer extends Application {
 				width = Minecraft.getMinecraft().displayWidth;
 
 				LinkUtils.setNewWindowLink(width, height, timeElapsedMilliseconds / 1000);
-				webEngine.loadContent(LinkUtils.getContentURL(KingMammothCutScenes.video, width, height));
+				webEngine.loadContent(LinkUtils.getContentURL(KingMammothCutScenes.current, width, height));
 
 			}
 
@@ -156,7 +151,6 @@ public class VideoPlayer extends Application {
 			}
 
 		}
-
 
 	}
 

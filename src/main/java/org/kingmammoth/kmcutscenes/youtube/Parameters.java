@@ -3,12 +3,11 @@ package org.kingmammoth.kmcutscenes.youtube;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
-import org.kingmammoth.kmcutscenes.video.Settings;
+import org.kingmammoth.kmcutscenes.video.VideoSettings;
 
 public class Parameters {
 	
-	public String event;
-	public String[] eventParameters;
+	public String[] event;
 	public String url;
 	
 	public int width;
@@ -30,9 +29,9 @@ public class Parameters {
 	public String color;
 	public String hl;
 	
-	public static Settings settings;
+	public static VideoSettings settings;
 	
-	public static Settings getSettings() {
+	public static VideoSettings getSettings() {
 		return settings;
 	}
 
@@ -51,7 +50,7 @@ public class Parameters {
 				String name = f.getName();
 				int value = f.getInt(this);
 
-				if ((int) getValueOf(DefaultValueReference.class.newInstance(), name) != value) {
+				if ((int) getValueOf(DefaultReferences.class.newInstance(), name) != value) {
 
 					if (!name.equals("width") && !name.equals("height")) {
 						
@@ -67,7 +66,7 @@ public class Parameters {
 				String name = f.getName();
 				String value = (String) f.get(this);
 
-				if (!getValueOf(DefaultValueReference.class.newInstance(), name).toString().equals(value)) {
+				if (!getValueOf(DefaultReferences.class.newInstance(), name).toString().equals(value)) {
 
 					args.put(name, value);
 

@@ -9,11 +9,11 @@ public class YoutubeVideoLink {
 	public String url;
 	public Parameters parameters;
 	
-	public YoutubeVideoLink(String link, Parameters p) throws Exception {
+	public YoutubeVideoLink(Parameters p) throws Exception {
 		
 		this.parameters = p;
 		
-		String embed = LinkUtils.getEmbedLink(link) + "?";
+		String embed = LinkUtils.getEmbedLink(p.url) + "?";
 		
 		StringBuilder sb = new StringBuilder(embed);
 		

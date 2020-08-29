@@ -2,23 +2,8 @@ package org.kingmammoth.kmcutscenes.event;
 
 import java.lang.reflect.Method;
 
-import org.kingmammoth.kmcutscenes.youtube.Parameters;
-import org.kingmammoth.kmcutscenes.youtube.YoutubeVideoLink;
-
+@Deprecated
 public class SubscribeEvent {
-
-	public static void subscribe(YoutubeVideoLink[] links) {
-
-		for (int i = 0; i < links.length; i++) {
-			
-			Parameters p = links[i].parameters;
-			Method m = getMethod(p.event, p.eventParameters);
-			
-			// Add SubscribeEvent here
-			
-		}
-
-	}
 
 	public static Class<?> getClazz(String event) {
 

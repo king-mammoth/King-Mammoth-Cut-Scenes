@@ -14,14 +14,8 @@ public class VideoThread implements Runnable {
 
 	@Override
 	public void run() {
-		
 		playVideo();
 		player.primary.show();
-	}
-
-	public void stopVideo() throws Exception {
-		player.stop();
-	
 	}
 
 	private void playVideo() {
