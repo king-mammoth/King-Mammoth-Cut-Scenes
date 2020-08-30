@@ -4,6 +4,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.logging.log4j.Logger;
 import org.kingmammoth.kmcutscenes.config.ModConfig;
+import org.kingmammoth.kmcutscenes.event.EventManager;
 import org.kingmammoth.kmcutscenes.youtube.YoutubeVideoLink;
 import org.kingmammoth.kmcutscenes.youtube.json.GSONYoutubeLoader;
 
@@ -37,11 +38,30 @@ public class KingMammothCutScenes {
 		logger = event.getModLog();
 		ModConfig.initConfig();
 		GSONYoutubeLoader.loadScenes();
+		EventManager.init(videos.values().toArray(new YoutubeVideoLink[0]));
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) throws Exception {
-
+		
+		logger.info("====================================================");
+		logger.info("IGNORE THIS MESSAGE. THIS IS ONLY FOR DEBUGGING");
+		logger.info("-----------------------------------");
+		logger.info("Loaded Videos:");
+		logger.info("-----------------------------------");
+		
+		for (String key : videos.keySet()) {
+			
+			logger.info("Event: " + videos.get(key).parameters.event[0]);
+			logger.info("Params: " + videos.get(key).parameters.event[1]);
+			logger.info("-----------------------------------");
+			
+		}
+		
+		logger.info("====================================================");
+		
+		
+		
 	}
 
 	@EventHandler
@@ -49,10 +69,10 @@ public class KingMammothCutScenes {
 
 	}
 
-	@EventHandler
-	public void onFingerprintViolation(FMLFingerprintViolationEvent event) {
-		logger.warn("Invalid fingerprint detected! The file " + event.getSource().getName()
-				+ " may have been tampered with. This version will NOT be supported by the author!");
-	}
+//	@EventHandler
+//	public void onFingerprintViolation(FMLFingerprintViolationEvent event) {
+//		logger.warn("Invalid fingerprint detected! The file " + event.getSource().getName()
+//				+ " may have been tampered with. This version will NOT be supported by the author!");
+//	}
 
 }

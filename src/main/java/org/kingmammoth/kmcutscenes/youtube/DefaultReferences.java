@@ -2,9 +2,11 @@ package org.kingmammoth.kmcutscenes.youtube;
 
 import org.kingmammoth.kmcutscenes.video.VideoSettings;
 
+import com.google.gson.annotations.JsonAdapter;
+
 public class DefaultReferences {
 	
-	public String event[] = new String[] {"onWorldLoad", ""};
+	public String event[] = new String[] {"loadworld", ""};
 	public String url = "";
 	
 	public int width = -1;
@@ -26,6 +28,7 @@ public class DefaultReferences {
 	public String color = "";
 	public String hl = "";
 	
+	@JsonAdapter(CustomJSONAdapter.class)
 	public VideoSettings settings = new VideoSettings(0.9f, true, false, true, true, true);
 	
 	public String[] getEvent() {

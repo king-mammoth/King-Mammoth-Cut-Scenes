@@ -22,7 +22,7 @@ public class GSONYoutubeLoader {
 
 			if (getFileExtension(dir[i]).equals(".json")) {
 
-				Parameters p = new Gson().fromJson(readFile("config/KingMammothCutScenes" + dir[i].getName()), Parameters.class);
+				Parameters p = new Gson().fromJson(readFile("config/KingMammothCutScenes/" + dir[i].getName()), Parameters.class);
 				KingMammothCutScenes.videos.put(p.event[0], new YoutubeVideoLink(p));
 				
 			}

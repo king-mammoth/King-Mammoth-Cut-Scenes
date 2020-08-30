@@ -3,8 +3,8 @@ package org.kingmammoth.kmcutscenes.event;
 import org.kingmammoth.kmcutscenes.KingMammothCutScenes;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 import net.minecraft.world.storage.WorldSavedData;
-import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class FreshWorldCreation extends WorldSavedData {
 
@@ -24,10 +24,10 @@ public class FreshWorldCreation extends WorldSavedData {
 		return null;
 	}
 
-	public static boolean isFreshlyCreated() {
+	public static boolean isFreshlyCreated(World w) {
 
-		FreshWorldCreation instance = (FreshWorldCreation) FMLClientHandler.instance().getWorldClient().getMapStorage()
-				.getOrLoadData(FreshWorldCreation.class, DATA_NAME);
+		FreshWorldCreation instance = (FreshWorldCreation) w.getMapStorage().getOrLoadData(FreshWorldCreation.class,
+				DATA_NAME);
 
 		return instance == null ? true : false;
 
