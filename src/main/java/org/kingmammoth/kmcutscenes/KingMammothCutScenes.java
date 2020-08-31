@@ -5,12 +5,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.logging.log4j.Logger;
 import org.kingmammoth.kmcutscenes.config.ModConfig;
 import org.kingmammoth.kmcutscenes.event.EventManager;
+import org.kingmammoth.kmcutscenes.video.VideoSettings;
 import org.kingmammoth.kmcutscenes.youtube.YoutubeVideoLink;
 import org.kingmammoth.kmcutscenes.youtube.json.GSONYoutubeLoader;
 
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -18,8 +18,10 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 @Mod(modid = KingMammothCutScenes.MODID, name = KingMammothCutScenes.NAME, version = KingMammothCutScenes.VERSION)
 public class KingMammothCutScenes {
 
-	public static YoutubeVideoLink current = null;
-
+	public static VideoSettings settings;
+	
+	public static YoutubeVideoLink current;
+	
 	public static ConcurrentHashMap<String, YoutubeVideoLink> videos = new ConcurrentHashMap<>();
 
 	public static final String MODID = "kingmammothcutscenes";
@@ -44,35 +46,11 @@ public class KingMammothCutScenes {
 	@EventHandler
 	public void init(FMLInitializationEvent event) throws Exception {
 		
-		logger.info("====================================================");
-		logger.info("IGNORE THIS MESSAGE. THIS IS ONLY FOR DEBUGGING");
-		logger.info("-----------------------------------");
-		logger.info("Loaded Videos:");
-		logger.info("-----------------------------------");
-		
-		for (String key : videos.keySet()) {
-			
-			logger.info("Event: " + videos.get(key).parameters.event[0]);
-			logger.info("Params: " + videos.get(key).parameters.event[1]);
-			logger.info("-----------------------------------");
-			
-		}
-		
-		logger.info("====================================================");
-		
-		
-		
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-
+		
 	}
-
-//	@EventHandler
-//	public void onFingerprintViolation(FMLFingerprintViolationEvent event) {
-//		logger.warn("Invalid fingerprint detected! The file " + event.getSource().getName()
-//				+ " may have been tampered with. This version will NOT be supported by the author!");
-//	}
 
 }

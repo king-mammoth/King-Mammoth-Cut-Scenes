@@ -1,9 +1,5 @@
 package org.kingmammoth.kmcutscenes.youtube;
 
-import org.kingmammoth.kmcutscenes.video.VideoSettings;
-
-import com.google.gson.annotations.JsonAdapter;
-
 public class DefaultReferences {
 	
 	public String event[] = new String[] {"loadworld", ""};
@@ -14,7 +10,7 @@ public class DefaultReferences {
 	
 	public int autoplay = 0;
 	public int cc_load_policy = 0;
-	public int controls = 0;
+	public int controls = 1;
 	public int disablekb = 0;
 	public int end = 0;
 	public int fs = 0;
@@ -27,9 +23,6 @@ public class DefaultReferences {
 	public String cc_lang_pref = "";
 	public String color = "";
 	public String hl = "";
-	
-	@JsonAdapter(CustomJSONAdapter.class)
-	public VideoSettings settings = new VideoSettings(0.9f, true, false, true, true, true);
 	
 	public String[] getEvent() {
 		return event;
@@ -175,12 +168,12 @@ public class DefaultReferences {
 		this.hl = hl;
 	}
 	
-	public VideoSettings getSettings() {
-		return settings;
-	}
-	
-	public void setSettings(VideoSettings settings) {
-		this.settings = settings;
-	}
+//	public VideoSettings getSettings() {
+//		return settings;
+//	}
+//	
+//	public void setSettings(VideoSettings settings) {
+//		this.settings = settings;
+//	}
 	
 }

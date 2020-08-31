@@ -49,7 +49,7 @@ public class VideoPlayer extends Application {
 
 		this.primary = primaryStage;
 
-		settings = org.kingmammoth.kmcutscenes.youtube.Parameters.getSettings();
+		settings = KingMammothCutScenes.settings;
 
 		Timeline resize = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
 			@Override
@@ -99,7 +99,6 @@ public class VideoPlayer extends Application {
 		primaryStage.initStyle(StageStyle.UNDECORATED);
 		primaryStage.setScene(scene);
 		primaryStage.show();
-
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent event) {

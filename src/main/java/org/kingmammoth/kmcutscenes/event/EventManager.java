@@ -63,13 +63,8 @@ public class EventManager {
 
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) throws Exception {
-	
-		System.out.println("Current: " + KingMammothCutScenes.current);
-		System.out.println("Params: " + KingMammothCutScenes.current.parameters);
-		System.out.println("Settings: " + KingMammothCutScenes.current.parameters.settings);
-		System.out.println("Button: " + KingMammothCutScenes.current.parameters.settings.showSkipButton);
 		
-		if (KingMammothCutScenes.current != null && KingMammothCutScenes.current.parameters.settings.showSkipButton) {
+		if (KingMammothCutScenes.current != null && KingMammothCutScenes.settings.showSkipButton) {
 
 			isDone.set(true);
 			videoThread.interrupt();
