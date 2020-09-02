@@ -24,8 +24,6 @@ public class LinkUtils {
 
 	public static void setNewWindowLink(int width, int height, int time) {
 
-		// No Fucking Idea Why This Doesn't Work
-
 		KingMammothCutScenes.current.url = KingMammothCutScenes.current.url.replaceAll("([?&]start=\\w+)", "");
 		KingMammothCutScenes.current.url += ("&start=" + time);
 

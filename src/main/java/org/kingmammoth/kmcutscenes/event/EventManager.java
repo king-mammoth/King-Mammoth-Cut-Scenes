@@ -111,7 +111,7 @@ public class EventManager {
 
 		System.out.println("World Enabled: " + loadworld);
 
-		if (loadworld && KingMammothCutScenes.current == null) {
+		if (loadworld && !createworld && KingMammothCutScenes.current == null) {
 
 			KingMammothCutScenes.current = KingMammothCutScenes.videos.get("loadworld");
 			play();

@@ -4,10 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import org.kingmammoth.kmcutscenes.youtube.DefaultReferences;
-
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 public class ExampleVideoFile {
 	
@@ -16,9 +13,8 @@ public class ExampleVideoFile {
 	public static void init() throws IOException {
 		
 		new File(EventLoadWorld).createNewFile();
-		
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		String json = gson.toJson(new DefaultReferences());
+
+		String json = new Gson().toJson(new GeneratedSettings());
 		
 		PrintWriter pw = new PrintWriter("config/KingmammothCutScenes/ExampleScene.json");
 		pw.println(json);
