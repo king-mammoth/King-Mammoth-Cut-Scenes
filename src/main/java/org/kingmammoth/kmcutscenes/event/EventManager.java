@@ -22,8 +22,6 @@ import net.minecraftforge.fml.relauncher.Side;
 @Mod.EventBusSubscriber(Side.CLIENT)
 public class EventManager {
 
-	public static boolean subscribed = false;
-
 	public static Thread videoThread;
 	public static VideoPlayer cutscene;
 	public static VideoThread run;
@@ -31,31 +29,24 @@ public class EventManager {
 
 	public static void play() {
 
-		if (!subscribed) {
+		KingMammothCutScenes.logger.info("Got World Generation Event");
+		if (KingMammothCutScenes.playonceonly) {
 
-			KingMammothCutScenes.logger.info("Got World Generation Event");
+			KingMammothCutScenes.logger.info("Playing video for the first time.");
 
-			subscribed = true;
+			videoThread = new Thread(new VideoThread(cutscene, isDone));
+			videoThread.start();
 
-			if (KingMammothCutScenes.playonceonly) {
+			ModConfig.writeConfig("internal", "playedvideo", 0);
 
-				KingMammothCutScenes.logger.info("Playing video for the first time.");
+		} else {
 
-				videoThread = new Thread(new VideoThread(cutscene, isDone));
-				videoThread.start();
+			KingMammothCutScenes.logger.info("Playing video.");
 
-				ModConfig.writeConfig("internal", "playedvideo", 0);
+			videoThread = new Thread(new VideoThread(cutscene, isDone));
+			videoThread.start();
 
-			} else {
-
-				KingMammothCutScenes.logger.info("Playing video.");
-
-				videoThread = new Thread(new VideoThread(cutscene, isDone));
-				videoThread.start();
-
-				ModConfig.writeConfig("internal", "playedvideo", -1);
-
-			}
+			ModConfig.writeConfig("internal", "playedvideo", -1);
 
 		}
 
@@ -63,7 +54,7 @@ public class EventManager {
 
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) throws Exception {
-		
+
 		if (KingMammothCutScenes.current != null && KingMammothCutScenes.settings.showSkipButton) {
 
 			isDone.set(true);
@@ -75,7 +66,6 @@ public class EventManager {
 
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public static void onWorldUnload(WorldEvent.Unload event) {
-		subscribed = false;
 		isDone.lazySet(false);
 		KingMammothCutScenes.logger.info("Unloading world");
 	}
@@ -118,9 +108,9 @@ public class EventManager {
 
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public static void onWorldLoad(WorldEvent.Load event) {
-		
+
 		System.out.println("World Enabled: " + loadworld);
-		
+
 		if (loadworld && KingMammothCutScenes.current == null) {
 
 			KingMammothCutScenes.current = KingMammothCutScenes.videos.get("loadworld");

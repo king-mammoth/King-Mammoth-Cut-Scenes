@@ -4,10 +4,10 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 
 public class Parameters {
-	
+
 	public String[] event;
 	public String url;
-	
+
 	public int width;
 	public int height;
 
@@ -22,13 +22,13 @@ public class Parameters {
 	public int modestbranding;
 	public int rel;
 	public int start;
-	
+
 	public String cc_lang_pref;
 	public String color;
 	public String hl;
-	
+
 	// public static VideoSettings settings;
-	
+
 //	public static VideoSettings getSettings() {
 //		return settings;
 //	}
@@ -51,8 +51,7 @@ public class Parameters {
 				if ((int) getValueOf(DefaultReferences.class.newInstance(), name) != value) {
 
 					if (!name.equals("width") && !name.equals("height")) {
-						
-						System.out.println("Name of Change: " + name + " => New Value Is: " + value);
+
 						args.put(name, value);
 
 					}
@@ -66,7 +65,11 @@ public class Parameters {
 
 				if (!getValueOf(DefaultReferences.class.newInstance(), name).toString().equals(value)) {
 
-					args.put(name, value);
+					if (!name.equals(url)) {
+
+						args.put(name, value);
+
+					}
 
 				}
 

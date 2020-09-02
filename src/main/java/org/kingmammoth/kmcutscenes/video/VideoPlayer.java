@@ -4,7 +4,6 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.kingmammoth.kmcutscenes.KingMammothCutScenes;
-import org.kingmammoth.kmcutscenes.event.EventManager;
 import org.kingmammoth.kmcutscenes.video.component.SkipButton;
 import org.lwjgl.opengl.Display;
 
@@ -24,6 +23,7 @@ import javafx.stage.WindowEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.Mod;
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
@@ -58,6 +58,7 @@ public class VideoPlayer extends Application {
 				if (isDone.get()) {
 					primaryStage.close();
 					KingMammothCutScenes.current = null;
+					unsafe_death();
 				}
 				timeElapsedMilliseconds++;
 			}
@@ -75,7 +76,13 @@ public class VideoPlayer extends Application {
 				}
 			}
 		});
-
+		
+		if (KingMammothCutScenes.current.parameters.controls == 0) {
+			
+			webView.setDisable(true);
+			
+		}
+		
 		webEngine = webView.getEngine();
 		webEngine.loadContent(LinkUtils.getContentURL(KingMammothCutScenes.current, width, height));
 
@@ -90,9 +97,10 @@ public class VideoPlayer extends Application {
 			root.getChildren().add(btn);
 
 		}
-
+		
+		
 		Scene scene = new Scene(root, width, height);
-
+		
 		primaryStage.setX(Display.getX() + 8);
 		primaryStage.setY(Display.getY() + 30);
 		primaryStage.setOpacity(settings.getTransperency());
@@ -107,8 +115,9 @@ public class VideoPlayer extends Application {
 
 					Platform.setImplicitExit(false);
 					Platform.exit();
-					event.consume();
 					resize.stop();
+					unsafe_death();
+					event.consume();
 
 				} else {
 
@@ -117,39 +126,46 @@ public class VideoPlayer extends Application {
 				}
 			}
 		});
+		
+		FadeTransition ft = new FadeTransition(Duration.millis(10000));
+		ft.setFromValue(0.1);
+		ft.setToValue(10);
+		ft.setNode(webView);
+		ft.play();
+
+	}
+
+	public void unsafe_death() {
+
+		Thread.currentThread().stop();
 
 	}
 
 	public void match() {
 
-		if (EventManager.subscribed) {
+		if (settings.isFollowMinecraftScreenDrag()) {
 
-			if (settings.isFollowMinecraftScreenDrag()) {
+			primary.setX(Display.getX() + 8);
+			primary.setY(Display.getY() + 30);
 
-				primary.setX(Display.getX() + 8);
-				primary.setY(Display.getY() + 30);
+		}
 
-			}
+		if ((Minecraft.getMinecraft().displayHeight != height || Minecraft.getMinecraft().displayWidth != width)
+				&& settings.isFollowMinecraftScreenSize()) {
 
-			if ((Minecraft.getMinecraft().displayHeight != height || Minecraft.getMinecraft().displayWidth != width)
-					&& settings.isFollowMinecraftScreenSize()) {
+			primary.setWidth(Display.getWidth());
+			primary.setHeight(Display.getHeight() - 5);
 
-				// Implement Window Change Here Actual video size is not changing
-				primary.setWidth(Display.getWidth());
-				primary.setHeight(Display.getHeight());
+			height = Minecraft.getMinecraft().displayHeight;
+			width = Minecraft.getMinecraft().displayWidth;
 
-				height = Minecraft.getMinecraft().displayHeight;
-				width = Minecraft.getMinecraft().displayWidth;
+			LinkUtils.setNewWindowLink(width, height, timeElapsedMilliseconds / 1000);
+			webEngine.loadContent(LinkUtils.getContentURL(KingMammothCutScenes.current, width, height));
 
-				LinkUtils.setNewWindowLink(width, height, timeElapsedMilliseconds / 1000);
-				webEngine.loadContent(LinkUtils.getContentURL(KingMammothCutScenes.current, width, height));
+		}
 
-			}
-
-			if (Display.isActive() && settings.isFocusOnScreen()) {
-				primary.requestFocus();
-			}
-
+		if (Display.isActive() && settings.isFocusOnScreen()) {
+			primary.requestFocus();
 		}
 
 	}

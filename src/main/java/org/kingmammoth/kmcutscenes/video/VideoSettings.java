@@ -10,11 +10,11 @@ public class VideoSettings {
 	public boolean followMinecraftScreenSize = true;
 	public boolean focusOnScreen = true;
 
-	public VideoSettings(double transperency, boolean showSkipButton, boolean exitOnClose, boolean followMinecraftScreenDrag,
-			boolean followMinecraftScreenSize, boolean focusOnScreen) {
-		
+	public VideoSettings(double transperency, boolean showSkipButton, boolean exitOnClose,
+			boolean followMinecraftScreenDrag, boolean followMinecraftScreenSize, boolean focusOnScreen) {
+
 		this.transperency = transperency;
-		
+
 		this.showSkipButton = showSkipButton;
 		this.exitOnClose = exitOnClose;
 		this.followMinecraftScreenDrag = followMinecraftScreenDrag;

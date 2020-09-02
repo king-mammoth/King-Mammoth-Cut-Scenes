@@ -18,6 +18,7 @@ public class YoutubeVideoLink {
 		StringBuilder sb = new StringBuilder(embed);
 		
 		HashMap<String, Object> arguments = p.getArguments();
+		
 		for (String key : arguments.keySet()) {
 			
 			Object val = arguments.get(key);

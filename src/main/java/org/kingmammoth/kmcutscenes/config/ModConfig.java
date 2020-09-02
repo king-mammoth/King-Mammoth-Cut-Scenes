@@ -376,9 +376,16 @@ public class ModConfig {
 		if (!ExampleVideoFile.getFile().exists()) {
 
 			KingMammothCutScenes.logger
-					.info("Example JSON file for King Mammoth Cut Scenes Title doesn't exist. Creating one now!");
+					.info("Example JSON file for King Mammoth Cut Scenes doesn't exist. Creating one now!");
 			ExampleVideoFile.init();
 
+		}
+
+		if (!StyleSheetManager.getFile().exists()) {
+
+			KingMammothCutScenes.logger.info("CSS file for King Mammoth Cut Scenes doesn't exist. Creating one now!");
+			StyleSheetManager.init();
+			
 		}
 
 	}

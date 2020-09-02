@@ -46,6 +46,17 @@ public class KingMammothCutScenes {
 	@EventHandler
 	public void init(FMLInitializationEvent event) throws Exception {
 		
+		System.out.println("========================================");
+		System.out.println("transperency: " + settings.transperency);
+		System.out.println("showSkipButton: " + settings.showSkipButton);
+		System.out.println("exitOnClose: " + settings.exitOnClose);
+		System.out.println("followMinecraftScreenDrag: " + settings.followMinecraftScreenDrag);
+		System.out.println("followMinecraftScreenSize: " + settings.followMinecraftScreenSize);
+		System.out.println("focusOnScreen: " + settings.focusOnScreen);
+		System.out.println("========================================");
+		
+		
+		
 	}
 
 	@EventHandler
