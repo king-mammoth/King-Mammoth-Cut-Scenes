@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.kingmammoth.kmcutscenes.KingMammothCutScenes;
+import org.kingmammoth.kmcutscenes.video.VideoSettings;
 import org.kingmammoth.kmcutscenes.youtube.json.ExampleVideoFile;
 
 import net.minecraftforge.common.config.ConfigCategory;
@@ -325,8 +326,16 @@ public class ModConfig {
 
 			KingMammothCutScenes.logger
 					.info("Config file for King Mammoth Cut Scenes doesn't exist. Creating one now!");
-			writeConfig("settings", "play-once-only", true);
+
 			writeConfig("internal", "playedvideo", -1);
+
+			writeConfig("settings", "play-once-only", true);
+			writeConfig("settings", "transperency", 0.85);
+			writeConfig("settings", "showSkipButton", true);
+			writeConfig("settings", "exitOnClose", false);
+			writeConfig("settings", "followMinecraftScreenDrag", true);
+			writeConfig("settings", "followMinecraftScreenSize", true);
+			writeConfig("settings", "focusOnScreen", true);
 
 		} else {
 
@@ -353,6 +362,16 @@ public class ModConfig {
 			break;
 
 		}
+
+		float transperency = getFloat("settings", "transperency");
+		boolean showSkipButton = getBoolean("settings", "showSkipButton");
+		boolean exitOnClose = getBoolean("settings", "exitOnClose");
+		boolean followMinecraftScreenDrag = getBoolean("settings", "followMinecraftScreenDrag");
+		boolean followMinecraftScreenSize = getBoolean("settings", "followMinecraftScreenSize");
+		boolean focusOnScreen = getBoolean("settings", "focusOnScreen");
+
+		KingMammothCutScenes.settings = new VideoSettings(transperency, showSkipButton, exitOnClose,
+				followMinecraftScreenDrag, followMinecraftScreenSize, focusOnScreen);
 
 		if (!ExampleVideoFile.getFile().exists()) {
 

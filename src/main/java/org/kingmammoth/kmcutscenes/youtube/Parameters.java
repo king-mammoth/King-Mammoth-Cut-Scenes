@@ -3,8 +3,6 @@ package org.kingmammoth.kmcutscenes.youtube;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
-import org.kingmammoth.kmcutscenes.video.VideoSettings;
-
 public class Parameters {
 	
 	public String[] event;
@@ -29,11 +27,11 @@ public class Parameters {
 	public String color;
 	public String hl;
 	
-	public static VideoSettings settings;
+	// public static VideoSettings settings;
 	
-	public static VideoSettings getSettings() {
-		return settings;
-	}
+//	public static VideoSettings getSettings() {
+//		return settings;
+//	}
 
 	public HashMap<String, Object> getArguments() throws Exception {
 

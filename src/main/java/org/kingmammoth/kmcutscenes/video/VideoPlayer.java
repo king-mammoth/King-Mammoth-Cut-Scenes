@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.kingmammoth.kmcutscenes.KingMammothCutScenes;
-import org.kingmammoth.kmcutscenes.event.EventHandler;
+import org.kingmammoth.kmcutscenes.event.EventManager;
 import org.kingmammoth.kmcutscenes.video.component.SkipButton;
 import org.lwjgl.opengl.Display;
 
@@ -27,6 +27,7 @@ import net.minecraftforge.fml.common.Mod;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+import javafx.event.EventHandler;
 
 @Mod.EventBusSubscriber(Side.CLIENT)
 public class VideoPlayer extends Application {
@@ -48,9 +49,9 @@ public class VideoPlayer extends Application {
 
 		this.primary = primaryStage;
 
-		settings = org.kingmammoth.kmcutscenes.youtube.Parameters.getSettings();
+		settings = KingMammothCutScenes.settings;
 
-		Timeline resize = new Timeline(new KeyFrame(Duration.millis(1), new javafx.event.EventHandler<ActionEvent>() {
+		Timeline resize = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				match();
@@ -98,8 +99,7 @@ public class VideoPlayer extends Application {
 		primaryStage.initStyle(StageStyle.UNDECORATED);
 		primaryStage.setScene(scene);
 		primaryStage.show();
-
-		primaryStage.setOnCloseRequest(new javafx.event.EventHandler<WindowEvent>() {
+		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent event) {
 
@@ -122,7 +122,7 @@ public class VideoPlayer extends Application {
 
 	public void match() {
 
-		if (EventHandler.subscribed) {
+		if (EventManager.subscribed) {
 
 			if (settings.isFollowMinecraftScreenDrag()) {
 

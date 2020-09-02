@@ -11,7 +11,7 @@ import com.google.gson.GsonBuilder;
 
 public class ExampleVideoFile {
 	
-	public static String EventLoadWorld = "config/KingmammothCutScenes/loadworld.json";
+	public static String EventLoadWorld = "config/KingmammothCutScenes/ExampleScene.json";
 	
 	public static void init() throws IOException {
 		
@@ -20,7 +20,7 @@ public class ExampleVideoFile {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String json = gson.toJson(new DefaultReferences());
 		
-		PrintWriter pw = new PrintWriter("config/KingmammothCutScenes/loadworld.json");
+		PrintWriter pw = new PrintWriter("config/KingmammothCutScenes/ExampleScene.json");
 		pw.println(json);
 		pw.close();		
 
