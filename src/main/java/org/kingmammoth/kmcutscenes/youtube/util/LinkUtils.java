@@ -1,10 +1,10 @@
-package org.kingmammoth.kmcutscenes.youtube.util;
+package org.kingmammoth.kmcutscenes.video;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.kingmammoth.kmcutscenes.KingMammothCutScenes;
-import org.kingmammoth.kmcutscenes.youtube.VideoLink;
+import org.kingmammoth.kmcutscenes.youtube.YoutubeVideoLink;
 
 public class LinkUtils {
 
@@ -31,7 +31,7 @@ public class LinkUtils {
 
 	}
 
-	public static String getContentURL(VideoLink link, int width, int height) {
+	public static String getContentURL(YoutubeVideoLink link, int width, int height) {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("<html><body style='margin: 0'>");
