@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 
 import org.kingmammoth.kmcutscenes.KingMammothCutScenes;
 import org.kingmammoth.kmcutscenes.youtube.Parameters;
-import org.kingmammoth.kmcutscenes.youtube.YoutubeVideoLink;
+import org.kingmammoth.kmcutscenes.youtube.VideoLink;
 
 import com.google.gson.Gson;
 
@@ -23,7 +23,7 @@ public class GSONYoutubeLoader {
 			if (getFileExtension(dir[i]).equals(".json")) {
 
 				Parameters p = new Gson().fromJson(readFile("config/KingMammothCutScenes/" + dir[i].getName()), Parameters.class);
-				KingMammothCutScenes.videos.put(p.event[0], new YoutubeVideoLink(p));
+				KingMammothCutScenes.videos.put(p.event[0], new VideoLink(p));
 				
 			}
 

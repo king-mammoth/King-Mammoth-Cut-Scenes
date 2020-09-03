@@ -4,10 +4,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.kingmammoth.kmcutscenes.KingMammothCutScenes;
 import org.kingmammoth.kmcutscenes.config.ModConfig;
-import org.kingmammoth.kmcutscenes.video.VideoPlayer;
-import org.kingmammoth.kmcutscenes.video.VideoThread;
+import org.kingmammoth.kmcutscenes.player.PlayerThread;
+import org.kingmammoth.kmcutscenes.player.YoutubeVideoPlayer;
 import org.kingmammoth.kmcutscenes.youtube.Parameters;
-import org.kingmammoth.kmcutscenes.youtube.YoutubeVideoLink;
+import org.kingmammoth.kmcutscenes.youtube.VideoLink;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -23,8 +23,8 @@ import net.minecraftforge.fml.relauncher.Side;
 public class EventManager {
 
 	public static Thread videoThread;
-	public static VideoPlayer cutscene;
-	public static VideoThread run;
+	public static YoutubeVideoPlayer cutscene;
+	public static PlayerThread run;
 	public static AtomicBoolean isDone = new AtomicBoolean(false);
 
 	public static void play() {
@@ -34,7 +34,7 @@ public class EventManager {
 
 			KingMammothCutScenes.logger.info("Playing video for the first time.");
 
-			videoThread = new Thread(new VideoThread(cutscene, isDone));
+			videoThread = new Thread(new PlayerThread(cutscene, isDone));
 			videoThread.start();
 
 			ModConfig.writeConfig("internal", "playedvideo", 0);
@@ -43,7 +43,7 @@ public class EventManager {
 
 			KingMammothCutScenes.logger.info("Playing video.");
 
-			videoThread = new Thread(new VideoThread(cutscene, isDone));
+			videoThread = new Thread(new PlayerThread(cutscene, isDone));
 			videoThread.start();
 
 			ModConfig.writeConfig("internal", "playedvideo", -1);
@@ -111,7 +111,7 @@ public class EventManager {
 
 		System.out.println("World Enabled: " + loadworld);
 
-		if (loadworld && KingMammothCutScenes.current == null) {
+		if (loadworld && !createworld && KingMammothCutScenes.current == null) {
 
 			KingMammothCutScenes.current = KingMammothCutScenes.videos.get("loadworld");
 			play();
@@ -227,7 +227,7 @@ public class EventManager {
 
 	}
 
-	public static void init(YoutubeVideoLink[] links) throws Exception {
+	public static void init(VideoLink[] links) throws Exception {
 
 		for (int i = 0; i < links.length; i++) {
 

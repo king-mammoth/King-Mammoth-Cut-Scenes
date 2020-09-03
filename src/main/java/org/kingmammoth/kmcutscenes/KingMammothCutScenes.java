@@ -5,8 +5,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.logging.log4j.Logger;
 import org.kingmammoth.kmcutscenes.config.ModConfig;
 import org.kingmammoth.kmcutscenes.event.EventManager;
-import org.kingmammoth.kmcutscenes.video.VideoSettings;
-import org.kingmammoth.kmcutscenes.youtube.YoutubeVideoLink;
+import org.kingmammoth.kmcutscenes.youtube.VideoLink;
+import org.kingmammoth.kmcutscenes.youtube.VideoSettings;
 import org.kingmammoth.kmcutscenes.youtube.json.GSONYoutubeLoader;
 
 import net.minecraftforge.fml.common.Mod;
@@ -20,9 +20,9 @@ public class KingMammothCutScenes {
 
 	public static VideoSettings settings;
 	
-	public static YoutubeVideoLink current;
+	public static VideoLink current;
 	
-	public static ConcurrentHashMap<String, YoutubeVideoLink> videos = new ConcurrentHashMap<>();
+	public static ConcurrentHashMap<String, VideoLink> videos = new ConcurrentHashMap<>();
 
 	public static final String MODID = "kingmammothcutscenes";
 	public static final String NAME = "King Mammoth Cut Scenes";
@@ -40,7 +40,7 @@ public class KingMammothCutScenes {
 		logger = event.getModLog();
 		ModConfig.initConfig();
 		GSONYoutubeLoader.loadScenes();
-		EventManager.init(videos.values().toArray(new YoutubeVideoLink[0]));
+		EventManager.init(videos.values().toArray(new VideoLink[0]));
 	}
 
 	@EventHandler

@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.kingmammoth.kmcutscenes.KingMammothCutScenes;
-import org.kingmammoth.kmcutscenes.video.VideoSettings;
+import org.kingmammoth.kmcutscenes.youtube.VideoSettings;
 import org.kingmammoth.kmcutscenes.youtube.json.ExampleVideoFile;
 
 import net.minecraftforge.common.config.ConfigCategory;
